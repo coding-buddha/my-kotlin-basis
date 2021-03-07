@@ -5,9 +5,12 @@
 
 ## [flyway](https://flywaydb.org/documentation/)
 * `org.flywaydb.flyway` plugins 추가
-    * `db` 와 통신할 수 있도록 flyway `task` 작성    
+    * `db` 와 통신할 수 있도록 flyway `task` 작성 
+    * 해당 방법은 spring dependency 를 추가하는게 아니라, 직접 `flyway task` 를 만들고 수행시키는 방법이다.
+    * gradle tab 에서 클릭으로 조작이 가능함
 * `resourcs/db/migration` 디렉토리 내에 sql 파일을 넣어야 한다.
     * `V1__{file-name}.sql` 형태로 파일을 만듦
+* 
 
 ### gradle command : flywayMigrate
 `./gradlew :sample-bookstore:flywayMigrate -i` 실행

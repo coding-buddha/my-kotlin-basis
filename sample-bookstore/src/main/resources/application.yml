@@ -11,5 +11,15 @@ spring:
     open-in-view: false
     database-platform: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: update
 
+  flyway:
+    enabled: true
+    encoding: UTF-8
+    url: jdbc:mysql://localhost:13309/bookstore?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=Asia/Seoul
+    user: root
+    password: rootpass
+    sql-migration-prefix: V
+    sql-migration-suffixes: .sql
+    sql-migration-separator: __
+    locations: classpath:db/migration,classpath:db/callback

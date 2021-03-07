@@ -1,6 +1,7 @@
 package edu.pasudo123.kotlin.mykotlin.samplebookstore.book.domain
 
 import edu.pasudo123.kotlin.mykotlin.samplebookstore.exception.BookRentalException
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -45,6 +46,9 @@ class Book (
 
     @Column(name = "count", columnDefinition = "BIGINT", nullable = false)
     var count = 0
+
+    @Column(name = "created_at", columnDefinition = "DATETIME", nullable = false)
+    val created_at: LocalDateTime = LocalDateTime.now()
 
     enum class RentalStatus {
         AVAILABLE,      // 대여가능
