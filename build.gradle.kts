@@ -5,11 +5,11 @@ plugins {
     val springVersion = "2.3.9.RELEASE"
     val springDependencyManagementVersion = "1.0.10.RELEASE"
 
-    id("org.springframework.boot") version springVersion apply false
-    id("io.spring.dependency-management") version springDependencyManagementVersion apply false
+    id("org.springframework.boot") version springVersion
+    id("io.spring.dependency-management") version springDependencyManagementVersion
 
-    kotlin("jvm") version kotlinVersion apply false
-    kotlin("plugin.spring") version kotlinVersion apply false
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
 
     // https://kotlinlang.org/docs/no-arg-plugin.html#jpa-support
     // kotlin jpa 사용 시, noargs 를 사용하기 위함 (하단에 apply kotlin-jpa 추가)
