@@ -1,10 +1,10 @@
-package edu.pasudo123.kotlin.mykotlin.fuelsample
+package edu.pasudo123.kotlin.mykotlin.samplehttplib
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class FuelSampleApplicationTests {
+class SampleHttplibApplicationTests {
 
     @Test
     fun contextLoads() {

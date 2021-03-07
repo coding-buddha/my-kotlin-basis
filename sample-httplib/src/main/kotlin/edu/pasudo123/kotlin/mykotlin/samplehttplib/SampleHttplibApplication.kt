@@ -1,11 +1,11 @@
-package edu.pasudo123.kotlin.mykotlin.fuelsample
+package edu.pasudo123.kotlin.mykotlin.samplehttplib
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class FuelSampleApplication
+class SampleHttplibApplication
 
 fun main(args: Array<String>) {
-    runApplication<FuelSampleApplication>(*args)
+    runApplication<SampleHttplibApplication>(*args)
 }

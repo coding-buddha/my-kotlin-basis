@@ -13,10 +13,11 @@ spring:
     show-sql: true
     hibernate.ddl-auto: update
 
+  # flyway multiple 시, java based 고려.
   flyway:
     enabled: true
     encoding: UTF-8
-    url: jdbc:mysql://localhost:13309/bookstore?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:13309/bookstore
     user: root
     password: rootpass
     sql-migration-prefix: V
