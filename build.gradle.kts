@@ -10,6 +10,10 @@ plugins {
 
     kotlin("jvm") version kotlinVersion apply false
     kotlin("plugin.spring") version kotlinVersion apply false
+
+    // https://kotlinlang.org/docs/no-arg-plugin.html#jpa-support
+    // kotlin jpa 사용 시, noargs 를 사용하기 위함 (하단에 apply kotlin-jpa 추가)
+    id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
 }
 
 allprojects {
@@ -34,6 +38,7 @@ subprojects {
     apply(plugin = "org.springframework.boot")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "kotlin-jpa")
 
     println("=======================================================================")
     println("Enabling Spring Boot plugin in project ${project.name}...")

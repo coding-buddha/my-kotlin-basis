@@ -1,0 +1,10 @@
+### 책 생성
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "name": "AAA",
+  "author": "test",
+  "publisher": "AA pub",
+  "isbn": "1"
+}
