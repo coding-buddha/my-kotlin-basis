@@ -1,10 +1,11 @@
 package edu.pasudo123.kotlin.mykotlin.samplehttplib.retrofit
 
 import edu.pasudo123.kotlin.mykotlin.samplehttplib.model.TaylorQuote
+import io.reactivex.Observable
 import retrofit2.http.GET
 
-interface SimpleGetApi {
+interface RetrofitClient {
 
-    @GET
-    suspend fun getQuote(): TaylorQuote
+    @GET(".")
+    fun getQuote(): Observable<TaylorQuote>
 }
