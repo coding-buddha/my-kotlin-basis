@@ -24,3 +24,6 @@ spring:
     sql-migration-suffixes: .sql
     sql-migration-separator: __
     locations: classpath:db/migration,classpath:db/callback
+
+server:
+  port: 48081

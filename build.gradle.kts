@@ -5,11 +5,13 @@ plugins {
     val springVersion = "2.3.9.RELEASE"
     val springDependencyManagementVersion = "1.0.10.RELEASE"
 
-    id("org.springframework.boot") version springVersion
-    id("io.spring.dependency-management") version springDependencyManagementVersion
+    idea
 
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
+    id("org.springframework.boot") version springVersion apply false
+    id("io.spring.dependency-management") version springDependencyManagementVersion apply false
+
+    kotlin("jvm") version kotlinVersion apply false
+    kotlin("plugin.spring") version kotlinVersion apply false
 
     // https://kotlinlang.org/docs/no-arg-plugin.html#jpa-support
     // kotlin jpa 사용 시, noargs 를 사용하기 위함 (하단에 apply kotlin-jpa 추가)
@@ -20,16 +22,8 @@ allprojects {
     group = "edu.pasudo123.kotlin"
     version = "1.0.0"
 
-    tasks.withType<JavaCompile> {
-        sourceCompatibility = "11"
-        targetCompatibility = "11"
-    }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "11"
-        }
+    repositories {
+        jcenter()
     }
 }
 
@@ -45,16 +39,21 @@ subprojects {
     println("Enabling Spring Boot Dependency Management in project ${project.name}...")
     println("Enabling Kotlin Spring plugin in project ${project.name}...")
 
-    repositories {
-        mavenCentral()
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            languageVersion = "1.4"
+            apiVersion = "1.4"
+            jvmTarget = "11"
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+        }
     }
 
     tasks.withType<Test> {
         useJUnitPlatform()
-    }
-
-    dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     }
 }
