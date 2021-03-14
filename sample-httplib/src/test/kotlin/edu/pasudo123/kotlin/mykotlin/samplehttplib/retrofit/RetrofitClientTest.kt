@@ -14,6 +14,7 @@ import retrofit2.Call
 class RetrofitClientTest {
 
     @Test
+    @DisplayName("")
     fun getApiTest() {
 
         // given
@@ -24,5 +25,5 @@ class RetrofitClientTest {
 
         // then
         println(response.blockingSingle())
-    }
+   }
 }
