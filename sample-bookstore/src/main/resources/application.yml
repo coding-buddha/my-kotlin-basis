@@ -6,6 +6,10 @@ spring:
     username: root
     password: rootpass
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: true
+  #      connection-test-query: SELECT 1
+
 
   jpa:
     open-in-view: false
@@ -13,7 +17,7 @@ spring:
     show-sql: true
     hibernate.ddl-auto: update
 
-  # flyway multiple 시, java based 고려.
+  # flyway 를 여러 데이터소스에 적용하려고 한다면, yml 파일보단 자바 기반 코드로 변경하는 것이 좋다.
   flyway:
     enabled: true
     encoding: UTF-8
