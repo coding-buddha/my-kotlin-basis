@@ -8,14 +8,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       auto-commit: true
-  #      connection-test-query: SELECT 1
-
+    data: classpath:db/data
 
   jpa:
     open-in-view: false
     database-platform: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: create-drop
 
   # flyway 를 여러 데이터소스에 적용하려고 한다면, yml 파일보단 자바 기반 코드로 변경하는 것이 좋다.
   flyway:

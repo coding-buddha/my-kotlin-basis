@@ -1,15 +1,19 @@
 package edu.pasudo123.kotlin.mykotlin.samplebookstore.book.domain
 
 import edu.pasudo123.kotlin.mykotlin.samplebookstore.exception.BookRentalException
+import edu.pasudo123.kotlin.mykotlin.samplebookstore.store.domain.store.Store
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Index
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -49,6 +53,14 @@ class Book (
 
     @Column(name = "created_at", columnDefinition = "DATETIME", nullable = false)
     val created_at: LocalDateTime = LocalDateTime.now()
+
+    /**
+     * nullable 을 붙인건 스키마 컬럼에 대해서 null 이 될 수 없음을 명시
+     * optional 을 붙인건 프록시 기능에 null 을 허용하지 않고 지연로딩을 하기위한 장치
+     */
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Store::class, optional = false)
+    @JoinColumn(name = "book_store_id", referencedColumnName = "id", nullable = false)
+    var bookStore: Store? = null
 
     enum class RentalStatus {
         AVAILABLE,      // 대여가능
