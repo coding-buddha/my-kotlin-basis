@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-or}
+}
 
 dependencies {
 
