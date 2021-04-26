@@ -2,9 +2,6 @@ package edu.pasudo123.kotlin.demo.dirtycontext
 
 import org.springframework.stereotype.Component
 
-/**
- * DirtyContext 를
- */
 @Component
 class UserCache {
 
