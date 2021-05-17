@@ -1,0 +1,5 @@
+server:
+  port: 8085
+  error:
+    # 스택 트레이스 정보를 추가하지 않음을 명시한다.
+    include-stacktrace: never
