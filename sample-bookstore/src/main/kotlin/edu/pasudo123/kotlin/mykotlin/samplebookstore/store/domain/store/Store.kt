@@ -1,5 +1,6 @@
 package edu.pasudo123.kotlin.mykotlin.samplebookstore.store.domain.store
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import edu.pasudo123.kotlin.mykotlin.samplebookstore.book.domain.Book
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -16,7 +17,6 @@ class Store(
     nameParam: String,
     addressParam: String
 ) {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -27,8 +27,7 @@ class Store(
     @Column(name = "address", columnDefinition = "VARCHAR(255)", length = 200, nullable = false)
     val address: String = addressParam
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookStore")
-    val books: List<Book> = mutableListOf()
-
-
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookStore", targetEntity = Book::class)
+    val books: MutableList<Book> = mutableListOf()
 }

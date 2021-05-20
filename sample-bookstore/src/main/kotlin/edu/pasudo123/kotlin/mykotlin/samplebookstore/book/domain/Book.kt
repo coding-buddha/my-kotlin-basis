@@ -1,5 +1,6 @@
 package edu.pasudo123.kotlin.mykotlin.samplebookstore.book.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import edu.pasudo123.kotlin.mykotlin.samplebookstore.exception.BookRentalException
 import edu.pasudo123.kotlin.mykotlin.samplebookstore.store.domain.store.Store
 import java.time.LocalDateTime
@@ -58,8 +59,9 @@ class Book (
      * nullable 을 붙인건 스키마 컬럼에 대해서 null 이 될 수 없음을 명시
      * optional 을 붙인건 프록시 기능에 null 을 허용하지 않고 지연로딩을 하기위한 장치
      */
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Store::class, optional = false)
-    @JoinColumn(name = "book_store_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Store::class, optional = true)
+    @JoinColumn(name = "book_store_id", referencedColumnName = "id", nullable = true)
     var bookStore: Store? = null
 
     enum class RentalStatus {
@@ -106,5 +108,10 @@ class Book (
     // TODO race condition 은 어떻게 할 것인가.
     fun bookCountMinus() {
         this.count--;
+    }
+
+    fun setStore(store: Store) {
+        this.bookStore = store
+        this.bookStore!!.books.add(this)
     }
 }

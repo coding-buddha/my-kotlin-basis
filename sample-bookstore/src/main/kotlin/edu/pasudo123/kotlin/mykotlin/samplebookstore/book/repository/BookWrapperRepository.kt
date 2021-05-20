@@ -19,7 +19,7 @@ class BookWrapperRepository(
     }
 
     fun findOneById(id: Long): Book {
-        return bookRepository.findByIdOrNull(id) ?: throw EntityNotFoundException("BOOK[$id] 가 없습니다.")
+        return bookRepository.findByIdOrNull(id) ?: throw EntityNotFoundException("book[$id] 가 없습니다.")
     }
 
     fun update(book: Book): Book {

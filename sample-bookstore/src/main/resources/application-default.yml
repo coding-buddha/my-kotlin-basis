@@ -11,10 +11,11 @@ spring:
     data: classpath:db/data
 
   jpa:
-    open-in-view: false
+    # controller 영역까지 session 을 허용해주겠다는 의미이다.
+    open-in-view: true
     database-platform: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: update
 
   # flyway 를 여러 데이터소스에 적용하려고 한다면, yml 파일보단 자바 기반 코드로 변경하는 것이 좋다.
   flyway:

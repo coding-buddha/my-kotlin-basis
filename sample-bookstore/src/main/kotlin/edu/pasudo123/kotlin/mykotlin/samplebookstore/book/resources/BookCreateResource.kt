@@ -9,7 +9,7 @@ data class BookCreateResource(
     private val isbn: String
 ) {
 
-    fun createBookEntity(): Book {
+    fun toEntity(): Book {
         return Book(name, author, publisher, isbn)
     }
 }

@@ -16,12 +16,15 @@ class BookController(
     private val bookUpdateService: BookUpdateService
 ) {
 
-    @PostMapping
-    fun createBook(@RequestBody bookCreateResource: BookCreateResource): ResponseEntity<Book> {
-        return ResponseEntity.ok().body(bookCreateService.create(bookCreateResource))
+    @PostMapping("bookstore/{id}")
+    fun createBook(
+        @RequestBody bookCreateResource: BookCreateResource,
+        @PathVariable("id") storeId: Long
+    ): ResponseEntity<Book> {
+        return ResponseEntity.ok().body(bookCreateService.create(bookCreateResource, storeId))
     }
 
-    @GetMapping()
+    @GetMapping
     fun findAll(): ResponseEntity<List<Book>> {
         return ResponseEntity.ok().body(bookFetchService.findAll())
     }

@@ -1,5 +1,14 @@
+### 서점 생성
+POST {{host}}/bookstores
+Content-Type: application/json
+
+{
+  "name": "교보문고 광화문점 [3]",
+  "address": "서울특별시 종로구 종로1가 종로 1"
+}
+
 ### 책 생성
-POST http://localhost:8080/books
+POST {{host}}/books/bookstore/10
 Content-Type: application/json
 
 {
