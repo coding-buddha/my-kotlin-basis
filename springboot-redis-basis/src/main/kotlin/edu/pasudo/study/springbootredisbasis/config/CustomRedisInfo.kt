@@ -13,4 +13,9 @@ object CustomRedisInfo {
     const val REDIS_CC = "redisCC"
     const val FACTORY_CC = "factoryCC"
     const val DATABASE_CC = 3
+
+    //
+    const val GEO_TEMPLATE = "geoTemplate"
+    const val GEO_FACTORY = "geoFactory"
+    const val GEO_DATBASE = 4
 }
