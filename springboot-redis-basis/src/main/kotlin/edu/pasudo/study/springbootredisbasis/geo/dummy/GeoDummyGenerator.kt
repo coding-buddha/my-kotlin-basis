@@ -30,14 +30,14 @@ object GeoDummyGenerator {
 object LocationModel {
     fun fixture(
         name: String,
-        longitude: Double,
-        latitude: Double
+        latitude: Double,
+        longitude: Double
     ): Location {
         return Location(
             FixtureIdGenerator.id(),
             name,
-            longitude,
-            latitude
+            latitude,
+            longitude
         )
     }
 }

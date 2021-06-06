@@ -35,7 +35,6 @@ internal class GeoServiceTest : IntegrationTest() {
         val locations = GeoDummyGenerator.locations
 
         // when
-        // FIXME geo Operation 이 잘 작동되지 않는다. : embedded redis 의 서버 버전을 올려주어야 한다.
         locations.forEach { location ->
             geoService.saveGeoLocation(location)
         }

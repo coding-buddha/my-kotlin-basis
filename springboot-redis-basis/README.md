@@ -65,6 +65,10 @@ class TestRedisConfiguration(
     // ...
 }
 ```
+* https://download.redis.io/releases/
+  * 해당 사이트에서 필요한 레디스 버전을 설치
+* https://redis.io/topics/quickstart
+  * 해당 사이트를 통해 레디스 서버를 설치 `make` 이후에 컴파일된 실행가능한 redis server 를 프로젝트 내에 임포트 시키고 이용한다.
 
 ## reference
 * http://redisgate.kr/redisgate/ent/ent_intro.php
