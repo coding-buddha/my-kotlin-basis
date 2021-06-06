@@ -1,3 +1,3 @@
 ### location 정보를 redis 에 저장
-GET http://{{host}}/geo
+POST http://{{host}}/geo
 Accept: application/json

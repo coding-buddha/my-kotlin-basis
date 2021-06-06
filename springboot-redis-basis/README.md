@@ -40,9 +40,32 @@ public class RedisAutoConfiguration {
 	}
 
 }
-
 ```
 
+## error 2
+embedded redis 의 버전을 높여주자.
+* embedded redis 의 버전은 2.8.19 version 인데 해당 버전에서는 geo operation 이 작동되지 않는다. 따라서 특정 버전으로 embedded redis server 를 실행시켜주어야 한다.
+```kotlin
+@TestConfiguration
+class TestRedisConfiguration(
+    redisProperties: RedisProperties,
+) {
+
+    companion object : KLogging()
+
+    // geo operation 을 이용해주기 위해서 해당 버전을 올려준다. : redis-server 5.0.12 버전은 해당 프로젝트 내에서 가지고 있어야 한다.
+    private val customProvider = RedisExecProvider.defaultProvider()
+        .override(OS.MAC_OS_X, Resources.getResource("redis-server-5.0.12").file)
+
+    private val redisServer = RedisServerBuilder()
+        .redisExecProvider(customProvider)
+        .port(redisProperties.port)
+        .build()
+
+    // ...
+}
+```
 
 ## reference
 * http://redisgate.kr/redisgate/ent/ent_intro.php
+* https://github.com/pasudo123/embedded-redis

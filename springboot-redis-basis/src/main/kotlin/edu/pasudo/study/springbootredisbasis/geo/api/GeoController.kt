@@ -21,10 +21,4 @@ class GeoController(
             geoService.saveGeoLocation(location)
         }
     }
-
-    @GetMapping()
-    fun getGeos(): List<Location> {
-        geoService.
-        TODO("")
-    }
 }
