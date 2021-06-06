@@ -7,3 +7,6 @@ spring:
     port: 16379
     password: ''
     timeout: 3000
+
+
+use-dummy: true

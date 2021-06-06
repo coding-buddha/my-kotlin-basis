@@ -1,4 +1,4 @@
-package edu.pasudo.study.springbootredisbasis.geo
+package edu.pasudo.study.springbootredisbasis.geo.config
 
 import edu.pasudo.study.springbootredisbasis.config.CustomRedisInfo
 import mu.KLogging
@@ -20,6 +20,7 @@ class GeoRedisConfiguration(
 
     @Bean(name = [CustomRedisInfo.GEO_FACTORY])
     fun redisConnectionFactory(): LettuceConnectionFactory {
+        logger.info("geo factory 생성")
         return LettuceConnectionFactory(redisProperties.host, redisProperties.port)
             .apply {
                 database = CustomRedisInfo.GEO_DATBASE
@@ -28,6 +29,7 @@ class GeoRedisConfiguration(
 
     @Bean(name = [CustomRedisInfo.GEO_TEMPLATE])
     fun redisGeoTemplate(): RedisTemplate<String, String> {
+        logger.info("geo template 생성")
         val redisTemplate = RedisTemplate<String, String>()
         redisTemplate.setConnectionFactory(redisConnectionFactory())
         return redisTemplate

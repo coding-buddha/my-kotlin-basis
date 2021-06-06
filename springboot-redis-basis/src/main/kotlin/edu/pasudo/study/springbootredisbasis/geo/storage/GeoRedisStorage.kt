@@ -18,7 +18,7 @@ class GeoRedisStorage(
         redisGeoTemplate.opsForGeo()
             .add(
                 generateKey(location.id.toString()),
-                RedisGeoCommands.GeoLocation(location.name!!, Point(location.longitude, location.latitude))
+                RedisGeoCommands.GeoLocation(location.name!!, Point(location.latitude, location.longitude))
             )
     }
 
@@ -26,7 +26,7 @@ class GeoRedisStorage(
         redisGeoTemplate.opsForGeo()
             .add(
                 generateKey(location.id.toString()),
-                Point(location.longitude, location.latitude), location.name!!
+                Point(location.latitude, location.longitude), location.name!!
             )
     }
 
@@ -34,7 +34,7 @@ class GeoRedisStorage(
         redisGeoTemplate.opsForGeo()
             .add(
                 generateKey(location.id.toString()),
-                mapOf(location.name!! to Point(location.longitude, location.latitude))
+                mapOf(location.name!! to Point(location.latitude, location.longitude))
             )
     }
 

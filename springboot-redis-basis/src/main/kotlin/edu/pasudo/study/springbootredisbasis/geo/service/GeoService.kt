@@ -12,4 +12,8 @@ class GeoService(
     fun saveGeoLocation(location: Location) {
         geoRedisStorage.saveGeoLocation(location)
     }
+
+    fun getGeos() {
+
+    }
 }
