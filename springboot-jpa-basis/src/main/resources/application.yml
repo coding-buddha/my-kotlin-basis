@@ -2,7 +2,7 @@ spring:
   profiles: default
 
   datasource:
-    url: jdbc:mysql://localhost:13309/testdb?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:13310/testdb?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=Asia/Seoul
     username: root
     password: rootpass
     driver-class-name: com.mysql.cj.jdbc.Driver

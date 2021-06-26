@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.persistence.EntityNotFoundException
 
 @RestController
 @RequestMapping("books")
@@ -24,12 +25,18 @@ class BookController(
     }
 
     @GetMapping
-    fun fetchAll() : ResponseEntity<Book> {
-        TODO("구현이 필요하다.")
+    fun fetchAll() : ResponseEntity<List<Book>> {
+        val books = bookRepository.findAll()
+        return ResponseEntity.ok(books)
     }
 
     @GetMapping("{id}")
-    fun fetchOneById(@PathVariable("id") id: Long) : ResponseEntity<List<Book>> {
-        TODO("구현이 필요하다.")
+    fun fetchOneById(@PathVariable("id") id: Long) : ResponseEntity<Book> {
+        val bookOpt = bookRepository.findById(id)
+        if (bookOpt.isEmpty) {
+            throw EntityNotFoundException("Does not exist book[$id]")
+        }
+
+        return ResponseEntity.ok(bookOpt.get())
     }
 }
