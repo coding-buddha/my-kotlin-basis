@@ -11,8 +11,12 @@ dependencies {
     // web
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+
     // logging
     implementation("io.github.microutils:kotlin-logging:1.12.5")
+
+    // coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
     // basic
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
