@@ -1,14 +1,20 @@
-package com.example.springbootjpabasis.book.model
+package com.example.springbootjpabasis.domain.book.model
 
-import com.example.springbootjpabasis.book.api.resources.BookCreateResources
+import com.example.springbootjpabasis.domain.book.api.resources.BookCreateResources
+import com.example.springbootjpabasis.domain.library.model.Library
+import com.fasterxml.jackson.annotation.JsonBackReference
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Index
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
+import kotlin.random.Random
 
 @Entity
 @Table(name = "book", indexes = [
@@ -32,6 +38,21 @@ class Book(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "library_id")
+    var library: Library? = null
+        private set
+
+    fun setLibrary(library: Library) {
+        if(this.library == null) {
+            this.library = library
+        }
+
+        this.library!!.addBook(this)
+    }
 
     companion object {
         fun from(bookCreateResources: BookCreateResources): Book {

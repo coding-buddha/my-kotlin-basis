@@ -1,4 +1,4 @@
-package com.example.springbootjpabasis.book.api.resources
+package com.example.springbootjpabasis.domain.book.api.resources
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
@@ -10,5 +10,7 @@ data class BookCreateResources(
     @ApiModelProperty("작가", example = "천명관")
     val author: String,
     @ApiModelProperty("출판사", example = "문학동네")
-    val publisher: String
+    val publisher: String,
+    @ApiModelProperty("서점 아이디")
+    val libraryId: Long
 )

@@ -1,6 +1,6 @@
-package com.example.springbootjpabasis.book.repository
+package com.example.springbootjpabasis.domain.book.repository
 
-import com.example.springbootjpabasis.book.model.Book
+import com.example.springbootjpabasis.domain.book.model.Book
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
