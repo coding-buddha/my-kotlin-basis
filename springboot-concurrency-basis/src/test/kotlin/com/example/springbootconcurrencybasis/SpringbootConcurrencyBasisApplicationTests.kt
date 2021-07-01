@@ -1,4 +1,4 @@
-package com.example.springbootconcurreybasis
+package com.example.springbootconcurrencybasis
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

@@ -1,0 +1,9 @@
+server:
+  port: 18801
+
+spring:
+  redis:
+    host: localhost
+    port: 16380
+    password: ''
+    timeout: 3000

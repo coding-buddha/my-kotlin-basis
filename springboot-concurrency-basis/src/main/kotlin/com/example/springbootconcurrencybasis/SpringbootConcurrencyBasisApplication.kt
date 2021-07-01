@@ -1,4 +1,4 @@
-package com.example.springbootconcurreybasis
+package com.example.springbootconcurrencybasis
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
