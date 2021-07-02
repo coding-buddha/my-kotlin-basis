@@ -1,4 +1,4 @@
-package com.example.springbootconcurrencybasis.domain.config
+package com.example.springbootconcurrencybasis.domain.config.redis
 
 object MyRedisConnectionInfo {
 

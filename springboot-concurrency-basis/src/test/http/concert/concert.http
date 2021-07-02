@@ -1,0 +1,30 @@
+### Concert 추가
+POST http://localhost:18801/concerts
+Content-Type: application/json
+
+{
+  "name": "아이유 콘서트 2021",
+  "performanceDate": "2021-07-01 18:00:00",
+  "viewingTime": 180,
+  "grade": "PG_12"
+}
+
+> {%
+client.log("=====================================")
+client.log("response.id : " + response.body.id)
+client.log("response.name : " + response.body.name)
+client.log("=====================================")
+client.global.set("id", response.body.id);
+%}
+
+### Concert 단일 조회
+GET http://localhost:18801/concerts/{{id}}
+Content-Type: application/json
+
+### Concert 전체 조회
+GET http://localhost:18801/concerts
+Content-Type: application/json
+
+### 특정 Concert 에 티켓 추가
+
+

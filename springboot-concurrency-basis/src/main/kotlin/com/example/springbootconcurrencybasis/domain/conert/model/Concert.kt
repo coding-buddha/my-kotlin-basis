@@ -3,7 +3,9 @@ package com.example.springbootconcurrencybasis.domain.conert.model
 import com.example.springbootconcurrencybasis.domain.BaseEntity
 import com.example.springbootconcurrencybasis.domain.conert.api.resource.ConcertCreateResource
 import com.example.springbootconcurrencybasis.domain.ticket.model.Ticket
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonManagedReference
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -20,17 +22,18 @@ import javax.persistence.Table
 @Table(name = "concert")
 class Concert private constructor (
     @Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
-    private val name: String,
+    val name: String,
 
-    @Column(name = "performance_date", columnDefinition = "date comment '공연일시'", nullable = false)
-    private val performanceDate: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @Column(name = "performance_date", columnDefinition = "DATETIME comment '공연일시'", nullable = false)
+    val performanceDate: LocalDateTime,
 
-    @Column(name = "viewing_time", columnDefinition = "bigint comment '관림시간(분단위)'", nullable = false)
-    private val viewingTime: Long,
+    @Column(name = "viewing_time", columnDefinition = "BIGINT comment '관림시간(분단위)'", nullable = false)
+    val viewingTime: Long,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "grade", columnDefinition = "VARCHAR(50)", nullable = false)
-    private val grade: Grade
+    val grade: Grade
 ) : BaseEntity() {
 
     @Id
@@ -48,14 +51,20 @@ class Concert private constructor (
         X_RATED("18세 이상")
     }
 
+    fun addTicket(ticket: Ticket) {
+        tickets.removeIf { currentTicket -> currentTicket.id == ticket.id }
+        tickets.add(ticket)
+        ticket.set(this)
+    }
+
     companion object {
         fun from(concertCreateResource: ConcertCreateResource): Concert {
             return concertCreateResource.run {
                    Concert(
-                       this.name,
-                       this.performanceDate,
-                       this.viewingTime,
-                       this.grade
+                       name = this.name,
+                       performanceDate = LocalDateTime.now(),
+                       viewingTime = this.viewingTime,
+                       grade = this.grade
                    )
             }
         }

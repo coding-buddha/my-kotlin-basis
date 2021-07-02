@@ -1,4 +1,4 @@
-package com.example.springbootconcurrencybasis.domain.config
+package com.example.springbootconcurrencybasis.domain.config.redis
 
 import mu.KLogging
 import org.springframework.context.annotation.Configuration
