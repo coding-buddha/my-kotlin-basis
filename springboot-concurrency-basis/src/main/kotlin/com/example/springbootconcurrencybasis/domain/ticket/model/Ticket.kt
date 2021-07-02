@@ -22,11 +22,8 @@ class Ticket private constructor(
     @Column(name = "name", columnDefinition = "VARCHAR(60) comment '티켓명'", nullable = false)
     val name: String,
 
-    @Column(name = "seat_info", columnDefinition = "VARCHAR(60) comment '좌석정보'", nullable = false)
-    val seatInfo: String,
-
-    @Column(name = "description", columnDefinition = "VARCHAR(100) comment '좌석설명'", nullable = false)
-    val desc: String,
+    @Column(name = "init_count", columnDefinition = "BIGINT comment '티켓 발급 개수'", nullable = false)
+    val initCount: Long,
 
     @Column(name = "price", columnDefinition = "BIGINT", nullable = false)
     val price: Long,
@@ -57,8 +54,7 @@ class Ticket private constructor(
             return ticketCreateResource.run {
                 Ticket(
                     name = this.name,
-                    desc = this.desc,
-                    seatInfo = this.seatInfo,
+                    initCount = this.initCount,
                     price = this.price,
                     seatGrade = this.seatGrade
                 )
