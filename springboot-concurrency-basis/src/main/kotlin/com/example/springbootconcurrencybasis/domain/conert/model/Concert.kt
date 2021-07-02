@@ -42,7 +42,7 @@ class Concert private constructor (
 
     @JsonManagedReference
     @OneToMany(mappedBy = "concert", fetch = FetchType.LAZY, targetEntity = Ticket::class)
-    private val tickets: MutableList<Ticket> = mutableListOf()
+    val tickets: MutableList<Ticket> = mutableListOf()
 
     enum class Grade(desc: String) {
         G_RATED("전체관람가"),
