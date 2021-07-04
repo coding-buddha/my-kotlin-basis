@@ -12,7 +12,7 @@ class BookingChecker(
 ) {
 
     companion object : KLogging()
-
+    
     fun possibleBookingOrThrow(booking: Booking, bookingCount: Int, ticket: Ticket) {
         val increaseResultCount = bookingRedisRepository.increaseBooking(booking.id!!.toString(), bookingCount)
 

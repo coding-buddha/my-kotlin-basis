@@ -1,6 +1,5 @@
 package com.example.springbootconcurrencybasis.domain.book.repository
 
-import com.example.springbootconcurrencybasis.domain.book.service.BookingChecker
 import com.example.springbootconcurrencybasis.domain.config.redis.MyRedisConnectionInfo
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.redis.core.RedisTemplate
@@ -31,7 +30,7 @@ class BookingRedisRepository(
     }
 
     fun get(id: String): Int {
-        val key = "$BOOKING_KEY:$id"
+        val key = generateKey(id)
         return redisTemplate.opsForValue()
             .get(key)?.toInt() ?: 0
     }

@@ -31,6 +31,7 @@ class BookingService(
             this.set(concert)
             this.set(ticket)
         }
+
         bookingRepository.save(booking)
         bookingChecker.possibleBookingOrThrow(booking, bookings.count(), ticket)
         return booking

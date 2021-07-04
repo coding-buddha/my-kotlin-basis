@@ -7,7 +7,6 @@ import com.example.springbootconcurrencybasis.domain.book.repository.BookingRedi
 import com.example.springbootconcurrencybasis.domain.conert.api.ConcertController
 import com.example.springbootconcurrencybasis.domain.conert.api.resource.ConcertCreateResource
 import com.example.springbootconcurrencybasis.domain.conert.model.Concert
-import com.example.springbootconcurrencybasis.domain.config.redis.MyRedisConnectionInfo
 import com.example.springbootconcurrencybasis.domain.ticket.api.TicketController
 import com.example.springbootconcurrencybasis.domain.ticket.api.resources.TicketCreateResource
 import com.example.springbootconcurrencybasis.domain.ticket.model.Ticket
@@ -18,12 +17,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import mu.KLogging
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @DisplayName("BookingController 는")
@@ -41,9 +38,7 @@ internal class BookingControllerTest : IntegrationSupport() {
     @Autowired
     private lateinit var bookingRedisRepository: BookingRedisRepository
 
-    @Autowired
-    @Qualifier(value = MyRedisConnectionInfo.BOOKING_TEMPLATE)
-    private lateinit var redisTemplate: RedisTemplate<String, String>
+    companion object : KLogging()
 
     @Test
     @DisplayName("콘서트 티켓을 예매한다.")
@@ -87,7 +82,6 @@ internal class BookingControllerTest : IntegrationSupport() {
 
     @Test
     @DisplayName("콘서트 티켓을 동시에 예매한다.")
-    @Transactional
     fun createBookingConcurrencyTest() {
 
         // given
@@ -138,11 +132,5 @@ internal class BookingControllerTest : IntegrationSupport() {
         // then
         val count = bookingRedisRepository.get(booking.id!!.toString())
         count shouldBe 5
-    }
-
-    @Test
-    @DisplayName("콘서트 티켓을 동시에 예매하고, 일부는 예매하지 못한다.")
-    fun createBookingConcurrencyFailedTest() {
-
     }
 }
