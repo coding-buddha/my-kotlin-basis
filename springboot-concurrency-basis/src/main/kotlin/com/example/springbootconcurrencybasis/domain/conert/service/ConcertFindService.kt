@@ -19,12 +19,4 @@ class ConcertFindService(
         return concertRepository.findByIdOrNull(id)
             ?: throw EntityNotFoundException("Concert[$id] 를 찾을 수 없습니다.")
     }
-
-//    fun findOneWithTicketByIdOrThrow(concertId: Long, ticketId: Long): Concert {
-//        val concerts = concertCustomRepository.findOneWithTicketByConcertIdAndTicketId(concertId = concertId, ticketId = ticketId)
-//        if (concerts.isEmpty()) {
-//            throw EntityNotFoundException("Concert[$concertId] 와 Ticket[$ticketId] 를 찾을 수 없습니다.")
-//        }
-//        return concerts.first()
-//    }
 }

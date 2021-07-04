@@ -10,6 +10,8 @@ dependencies {
 
     // web
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+
 
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
@@ -42,12 +44,12 @@ dependencies {
     // h2
     testImplementation("com.h2database:h2")
 
-    // mock
+    // mock & kotest
     testImplementation("io.mockk:mockk:1.10.6")
-
-    // kotest
     testImplementation("io.kotest:kotest-assertions-core:4.4.3")
-} 
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+}
 
 sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
     kotlin.srcDir("$buildDir/generated/source/kapt/main")

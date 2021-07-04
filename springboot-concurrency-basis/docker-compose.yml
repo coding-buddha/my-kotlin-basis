@@ -7,7 +7,7 @@ services:
       - "mode=standalone"
     environment:
       - REDIS_REPLICATION_MODE=master
-    container_name: springboot-concurrency-basi-redis
+    container_name: springboot-concurrency-basis-redis
     ports:
       - 16380:6379
   db:

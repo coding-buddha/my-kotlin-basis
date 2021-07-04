@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @DisplayName("BookingController 는")
@@ -86,6 +87,7 @@ internal class BookingControllerTest : IntegrationSupport() {
 
     @Test
     @DisplayName("콘서트 티켓을 동시에 예매한다.")
+    @Transactional
     fun createBookingConcurrencyTest() {
 
         // given
@@ -114,12 +116,20 @@ internal class BookingControllerTest : IntegrationSupport() {
 
         // when
         val booking: Booking = bookingController.create(bookingCreateResource).body!!
+        booking shouldNotBe null
+        booking.id!! shouldBe 1L
+
         runBlocking {
             val job = CoroutineScope(Dispatchers.IO).launch {
                 val result01 = async { bookingController.create(bookingCreateResource).body!! }
                 val result02 = async { bookingController.create(bookingCreateResource).body!! }
                 val result03 = async { bookingController.create(bookingCreateResource).body!! }
                 val result04 = async { bookingController.create(bookingCreateResource).body!! }
+
+                result01.await()
+                result02.await()
+                result03.await()
+                result04.await()
             }
 
             job.join()
