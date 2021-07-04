@@ -33,7 +33,7 @@ class ConcertController(
     fun findOneById(
         @PathVariable id: Long
     ): ResponseEntity<Concert> {
-        val concert = concertFindService.findOneById(id)
+        val concert = concertFindService.findOneByIdOrThrow(id)
         return ResponseEntity.ok(concert)
     }
 

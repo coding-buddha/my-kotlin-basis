@@ -1,10 +1,8 @@
 package com.example.springbootconcurrencybasis.domain.book.model
 
 import com.example.springbootconcurrencybasis.domain.BaseEntity
-import com.example.springbootconcurrencybasis.domain.book.api.resources.BookingCreateResource
 import com.example.springbootconcurrencybasis.domain.conert.model.Concert
 import com.example.springbootconcurrencybasis.domain.ticket.model.Ticket
-import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -44,13 +42,5 @@ class Booking: BaseEntity() {
 
     fun delete() {
         this.deleted = true
-    }
-
-    companion object {
-        fun from(bookingCreateResource: BookingCreateResource): Booking {
-            return bookingCreateResource.run {
-                Booking()
-            }
-        }
     }
 }

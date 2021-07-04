@@ -17,4 +17,10 @@ class BookingCustomRepository: QuerydslRepositorySupport(Booking::class.java) {
             .fetchJoin()
             .fetch()
     }
+
+    fun findOneById(id: Long): List<Booking> {
+        return from(booking)
+            .where(booking.id.eq(id))
+            .fetch()
+    }
 }

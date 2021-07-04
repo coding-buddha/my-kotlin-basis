@@ -15,7 +15,7 @@ class ConcertFindService(
     private val concertCustomRepository: ConcertCustomRepository
 ) {
 
-    fun findOneById(id: Long) : Concert {
+    fun findOneByIdOrThrow(id: Long) : Concert {
         return concertRepository.findByIdOrNull(id)
             ?: throw EntityNotFoundException("Concert[$id] 를 찾을 수 없습니다.")
     }

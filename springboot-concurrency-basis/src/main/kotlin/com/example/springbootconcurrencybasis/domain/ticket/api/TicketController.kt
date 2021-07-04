@@ -1,6 +1,5 @@
 package com.example.springbootconcurrencybasis.domain.ticket.api
 
-import com.example.springbootconcurrencybasis.domain.conert.model.Concert
 import com.example.springbootconcurrencybasis.domain.conert.repository.ConcertRepository
 import com.example.springbootconcurrencybasis.domain.conert.service.ConcertFindService
 import com.example.springbootconcurrencybasis.domain.ticket.api.resources.TicketCreateResource
@@ -27,11 +26,11 @@ class TicketController(
     fun create(
         @PathVariable id: Long,
         @RequestBody ticketCreateResource: TicketCreateResource
-    ): ResponseEntity<Concert> {
-        val concert = concertFindService.findOneById(id)
+    ): ResponseEntity<Ticket> {
+        val concert = concertFindService.findOneByIdOrThrow(id)
         val ticket = ticketRepository.save(Ticket.from(ticketCreateResource))
         concert.addTicket(ticket)
         concertRepository.save(concert)
-        return ResponseEntity.ok(concert)
+        return ResponseEntity.ok(ticket)
     }
 }

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     kotlin("jvm")
 }
@@ -33,7 +31,19 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // redis-test
+    testImplementation("it.ozimov:embedded-redis:0.7.3"){
+        exclude(group = "org.slf4j", module = "slf4j-simple")
+    }
+
+    // mock
+    testImplementation("io.mockk:mockk:1.10.6")
+
+    // kotest
+    testImplementation("io.kotest:kotest-assertions-core:4.4.3")
 }
 
 sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
