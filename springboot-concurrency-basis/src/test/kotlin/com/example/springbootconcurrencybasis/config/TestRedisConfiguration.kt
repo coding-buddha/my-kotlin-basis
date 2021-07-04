@@ -9,6 +9,7 @@ import redis.embedded.RedisServerBuilder
 import redis.embedded.util.OS
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
+import kotlin.random.Random
 
 /**
  * https://github.com/ozimov/embedded-redis

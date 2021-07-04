@@ -25,8 +25,8 @@ dependencies {
 
     // querydsl : kapt 를 부모 gradle.build.kts 에 추가 (플러그인)
     kapt("org.springframework.boot:spring-boot-configuration-processor")
-    kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
-    implementation("com.querydsl:querydsl-jpa:4.2.1")
+    kapt("com.querydsl:querydsl-apt::jpa")
+    implementation("com.querydsl:querydsl-jpa")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -39,12 +39,15 @@ dependencies {
         exclude(group = "org.slf4j", module = "slf4j-simple")
     }
 
+    // h2
+    testImplementation("com.h2database:h2")
+
     // mock
     testImplementation("io.mockk:mockk:1.10.6")
 
     // kotest
     testImplementation("io.kotest:kotest-assertions-core:4.4.3")
-}
+} 
 
 sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
     kotlin.srcDir("$buildDir/generated/source/kapt/main")

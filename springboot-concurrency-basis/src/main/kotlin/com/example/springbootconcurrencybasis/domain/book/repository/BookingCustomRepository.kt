@@ -14,7 +14,6 @@ class BookingCustomRepository: QuerydslRepositorySupport(Booking::class.java) {
         return from(booking)
             .where(booking.concert.id.eq(concertId))
             .where(booking.ticket.id.eq(ticketId))
-            .fetchJoin()
             .fetch()
     }
 

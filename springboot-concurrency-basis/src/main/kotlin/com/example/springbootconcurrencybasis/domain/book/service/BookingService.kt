@@ -12,7 +12,7 @@ import javax.persistence.EntityNotFoundException
 @Service
 @Transactional
 class BookingService(
-    private val bookingValidator: BookingValidator,
+    private val bookingChecker: BookingChecker,
     private val bookingRepository: BookingRepository,
     private val bookingCustomRepository: BookingCustomRepository,
     private val concertFinderService: ConcertFindService,
@@ -26,13 +26,13 @@ class BookingService(
 
         val concert = concertFinderService.findOneByIdOrThrow(bookingCreateResource.concertId)
         val ticket = concert.tickets.find { it.id == bookingCreateResource.ticketId }!!
-        bookingValidator.possibleBookingOrThrow(bookings, ticket)
 
         val booking = Booking().apply{
             this.set(concert)
             this.set(ticket)
         }
         bookingRepository.save(booking)
+        bookingChecker.possibleBookingOrThrow(booking, bookings.count(), ticket)
         return booking
     }
 
@@ -45,6 +45,6 @@ class BookingService(
         val myBooking = bookings.first()
         myBooking.delete()
         bookingRepository.save(myBooking)
-        bookingValidator.decreaseBookingCount(myBooking)
+        bookingChecker.decreaseBy(myBooking)
     }
 }
