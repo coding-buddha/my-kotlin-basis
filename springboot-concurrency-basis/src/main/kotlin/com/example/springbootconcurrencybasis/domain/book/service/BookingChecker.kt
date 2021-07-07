@@ -15,8 +15,9 @@ class BookingChecker(
     
     fun possibleBookingOrThrow(booking: Booking, bookingCount: Int, ticket: Ticket) {
         val increaseResultCount = bookingRedisRepository.increaseBooking(booking.id!!.toString(), bookingCount)
+        val result = bookingRedisRepository.get(booking.id!!.toString())
+        logger.info { "incr : $increaseResultCount, bookingCount : $bookingCount, result : $result" }
 
-        logger.info { "==> increaseCount : $increaseResultCount, bookingCount : $bookingCount" }
         if (increaseResultCount > ticket.initCount) {
             this.decreaseBy(booking)
             throw Exception("티켓 예약이 끝났습니다.")
