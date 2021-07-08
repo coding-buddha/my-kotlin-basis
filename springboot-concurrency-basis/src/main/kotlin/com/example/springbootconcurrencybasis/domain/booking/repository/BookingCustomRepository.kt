@@ -1,7 +1,7 @@
-package com.example.springbootconcurrencybasis.domain.book.repository
+package com.example.springbootconcurrencybasis.domain.booking.repository
 
-import com.example.springbootconcurrencybasis.domain.book.model.Booking
-import com.example.springbootconcurrencybasis.domain.book.model.QBooking.booking
+import com.example.springbootconcurrencybasis.domain.booking.model.Booking
+import com.example.springbootconcurrencybasis.domain.booking.model.QBooking.booking
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional

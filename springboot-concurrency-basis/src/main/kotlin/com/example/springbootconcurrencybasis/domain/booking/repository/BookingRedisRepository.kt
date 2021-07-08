@@ -1,4 +1,4 @@
-package com.example.springbootconcurrencybasis.domain.book.repository
+package com.example.springbootconcurrencybasis.domain.booking.repository
 
 import com.example.springbootconcurrencybasis.domain.config.redis.MyRedisConnectionInfo
 import org.springframework.beans.factory.annotation.Qualifier

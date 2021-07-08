@@ -1,4 +1,4 @@
-package com.example.springbootconcurrencybasis.domain.book.model
+package com.example.springbootconcurrencybasis.domain.booking.model
 
 import com.example.springbootconcurrencybasis.domain.BaseEntity
 import com.example.springbootconcurrencybasis.domain.conert.model.Concert

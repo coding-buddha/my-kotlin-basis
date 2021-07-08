@@ -1,12 +1,11 @@
-package com.example.springbootconcurrencybasis.domain.book.api
+package com.example.springbootconcurrencybasis.domain.booking.api
 
-import com.example.springbootconcurrencybasis.domain.book.api.resources.BookingCreateResource
-import com.example.springbootconcurrencybasis.domain.book.model.Booking
-import com.example.springbootconcurrencybasis.domain.book.service.BookingService
+import com.example.springbootconcurrencybasis.domain.booking.api.resources.BookingCreateResource
+import com.example.springbootconcurrencybasis.domain.booking.model.Booking
+import com.example.springbootconcurrencybasis.domain.booking.service.BookingService
 import mu.KLogging
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

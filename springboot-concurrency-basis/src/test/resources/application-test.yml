@@ -30,3 +30,11 @@ spring:
     show-sql: true
     properties.hibernate.format_sql: true
     properties.hibernate.use_sql_comments: false
+
+client:
+  ticket:
+    host: http://localhost:8080
+    use-dummy: false
+  concert:
+    host: http://localhost:8080
+    use-dummy: false

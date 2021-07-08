@@ -1,9 +1,9 @@
-package com.example.springbootconcurrencybasis.domain.book.service
+package com.example.springbootconcurrencybasis.domain.booking.service
 
-import com.example.springbootconcurrencybasis.domain.book.api.resources.BookingCreateResource
-import com.example.springbootconcurrencybasis.domain.book.model.Booking
-import com.example.springbootconcurrencybasis.domain.book.repository.BookingCustomRepository
-import com.example.springbootconcurrencybasis.domain.book.repository.BookingRepository
+import com.example.springbootconcurrencybasis.domain.booking.api.resources.BookingCreateResource
+import com.example.springbootconcurrencybasis.domain.booking.model.Booking
+import com.example.springbootconcurrencybasis.domain.booking.repository.BookingCustomRepository
+import com.example.springbootconcurrencybasis.domain.booking.repository.BookingRepository
 import com.example.springbootconcurrencybasis.domain.conert.service.ConcertFindService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

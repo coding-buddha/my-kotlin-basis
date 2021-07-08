@@ -12,6 +12,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
+    // retrofit2 : for api communicate
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
 
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")

@@ -1,4 +1,4 @@
-package com.example.springbootconcurrencybasis.domain.book.api.resources
+package com.example.springbootconcurrencybasis.domain.booking.api.resources
 
 data class BookingCreateResource(
     val concertId: Long,

@@ -1,7 +1,7 @@
-package com.example.springbootconcurrencybasis.domain.book.service
+package com.example.springbootconcurrencybasis.domain.booking.service
 
-import com.example.springbootconcurrencybasis.domain.book.model.Booking
-import com.example.springbootconcurrencybasis.domain.book.repository.BookingRedisRepository
+import com.example.springbootconcurrencybasis.domain.booking.model.Booking
+import com.example.springbootconcurrencybasis.domain.booking.repository.BookingRedisRepository
 import com.example.springbootconcurrencybasis.domain.ticket.model.Ticket
 import mu.KLogging
 import org.springframework.stereotype.Service

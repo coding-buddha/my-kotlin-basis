@@ -1,9 +1,9 @@
-package com.example.springbootconcurrencybasis.domain.book.api
+package com.example.springbootconcurrencybasis.domain.booking.api
 
 import com.example.springbootconcurrencybasis.IntegrationSupport
-import com.example.springbootconcurrencybasis.domain.book.api.resources.BookingCreateResource
-import com.example.springbootconcurrencybasis.domain.book.model.Booking
-import com.example.springbootconcurrencybasis.domain.book.repository.BookingRedisRepository
+import com.example.springbootconcurrencybasis.domain.booking.api.resources.BookingCreateResource
+import com.example.springbootconcurrencybasis.domain.booking.model.Booking
+import com.example.springbootconcurrencybasis.domain.booking.repository.BookingRedisRepository
 import com.example.springbootconcurrencybasis.domain.conert.api.ConcertController
 import com.example.springbootconcurrencybasis.domain.conert.api.resource.ConcertCreateResource
 import com.example.springbootconcurrencybasis.domain.conert.model.Concert
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.annotation.DirtiesContext
 import java.time.LocalDateTime
 import javax.persistence.EntityManager
 
