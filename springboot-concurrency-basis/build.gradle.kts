@@ -2,6 +2,8 @@ plugins {
     kotlin("jvm")
 }
 
+val retrofitVersion = "2.9.0"
+
 dependencies {
 
     // jpa & mysql
@@ -13,9 +15,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
     // retrofit2 : for api communicate
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-jackson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
+    implementation("com.squareup.retrofit2:retrofit-mock:$retrofitVersion")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
 
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")

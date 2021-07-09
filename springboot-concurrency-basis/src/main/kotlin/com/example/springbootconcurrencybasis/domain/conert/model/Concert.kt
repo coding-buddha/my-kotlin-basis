@@ -62,7 +62,7 @@ class Concert private constructor (
             return concertCreateResource.run {
                    Concert(
                        name = this.name,
-                       performanceDate = LocalDateTime.now(),
+                       performanceDate = this.performanceDate,
                        viewingTime = this.viewingTime,
                        grade = this.grade
                    )

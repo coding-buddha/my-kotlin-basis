@@ -1,34 +1,16 @@
 package com.example.springbootconcurrencybasis.client.concert
 
-import com.example.springbootconcurrencybasis.domain.conert.model.Concert
+import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
-import org.springframework.stereotype.Component
-import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
-import retrofit2.http.POST
 
 class ConcertClientMaker(
     private val host: String,
-    private val useDummy: Boolean
+    private val useDummy: Boolean,
+    private val mapper: ObjectMapper
 ) {
-
-    interface ConcertClient {
-        fun createConcert(): Call<Concert>
-    }
-
-    interface ConcertRealClient: ConcertClient {
-        @POST("concerts")
-        override fun createConcert(
-
-        ): Call<Concert>
-    }
-
-    interface ConcertDummyClient: ConcertClient {
-        override fun createConcert(): Call<Concert> {
-            TODO("")
-        }
-    }
 
     fun createClient(): ConcertClient {
         val httpClient = OkHttpClient.Builder()
@@ -41,13 +23,18 @@ class ConcertClientMaker(
 
         val retrofit = Retrofit.Builder()
             .baseUrl(host)
-            .addConverterFactory(JacksonConverterFactory.create())
-            .callFactory(httpClient).build()
+            .addConverterFactory(JacksonConverterFactory.create(mapper))
+            .callFactory(httpClient)
+            .build()
 
         if(this.useDummy) {
-            return retrofit.create(ConcertDummyClient::class.java)
+            return ConcertClient().apply {
+                setDummyClient(ConcertDummyClient())
+            }
         }
 
-        return retrofit.create(ConcertRealClient::class.java)
+        return ConcertClient().apply {
+            setRealClient(retrofit.create(ConcertRealClient::class.java))
+        }
     }
 }

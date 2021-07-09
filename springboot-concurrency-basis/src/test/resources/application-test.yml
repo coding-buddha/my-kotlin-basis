@@ -33,8 +33,8 @@ spring:
 
 client:
   ticket:
-    host: http://localhost:8080
+    host: http://localhost:18801
     use-dummy: false
   concert:
-    host: http://localhost:8080
+    host: http://localhost:18801
     use-dummy: false
