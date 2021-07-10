@@ -12,19 +12,18 @@ import com.example.springbootconcurrencybasis.domain.ticket.api.resources.Ticket
 import com.example.springbootconcurrencybasis.domain.ticket.model.Ticket
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.mpp.unwrapIfReflectionCall
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.supervisorScope
 import mu.KLogging
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import java.time.LocalDateTime
-import javax.persistence.EntityManager
 
 @DisplayName("BookingController 는")
 internal class BookingControllerTest : IntegrationSupport() {
@@ -40,9 +39,6 @@ internal class BookingControllerTest : IntegrationSupport() {
 
     @Autowired
     private lateinit var bookingRedisRepository: BookingRedisRepository
-
-    @Autowired
-    private lateinit var entityManager: EntityManager
 
     companion object : KLogging()
 
@@ -82,13 +78,12 @@ internal class BookingControllerTest : IntegrationSupport() {
 
         // then
         booking shouldNotBe null
-        val count = bookingRedisRepository.get(booking.id!!.toString())
+        val count = bookingRedisRepository.get(booking)
         count shouldBe 4
     }
 
     @Test
     @DisplayName("콘서트 티켓을 동시에 예매한다.")
-    @Disabled("수행되지 않는다.")
     fun createBookingConcurrencyTest() {
 
         // given
@@ -122,18 +117,71 @@ internal class BookingControllerTest : IntegrationSupport() {
 
         runBlocking {
             val job = CoroutineScope(Dispatchers.IO).launch {
-                withContext(Dispatchers.Default) {
-                    async { bookingCreateBy(bookingCreateResource) }
-                    async { bookingCreateBy(bookingCreateResource) }
-                    async { bookingCreateBy(bookingCreateResource) }
-                    async { bookingCreateBy(bookingCreateResource) }
-                }
+                async { bookingCreateBy(bookingCreateResource) }
+                async { bookingCreateBy(bookingCreateResource) }
+                async { bookingCreateBy(bookingCreateResource) }
+                async { bookingCreateBy(bookingCreateResource) }
             }
             job.join()
         }
 
         // then
-        val count = bookingRedisRepository.get(booking.id!!.toString())
+        val count = bookingRedisRepository.get(booking)
+        count shouldBe 5
+    }
+
+    @Test
+    @DisplayName("콘서트 티켓을 동시에 예매하고, 그 중 하나에서 에러가 발생한다.")
+    fun createBookingExceptionOverFlowTest() {
+
+        // given : concert
+        val concertCreateResource = ConcertCreateResource(
+            name = "아이유 콘서트 여름 2021",
+            performanceDate = LocalDateTime.now(),
+            viewingTime = 120,
+            grade = Concert.Grade.PG_12
+        )
+        val concert = concertController.create(concertCreateResource).body!!
+        concert shouldNotBe null
+
+        // given : ticket
+        val ticketCreateResource = TicketCreateResource(
+            name = "아이유 콘서트 여름 2021 S 좌석 스탠딩",
+            initCount = 5,
+            price = 50000L,
+            seatGrade = Ticket.SeatGrade.S_CLASS
+        )
+        val ticket = ticketController.create(concert.id!!, ticketCreateResource).body!!
+        ticket shouldNotBe null
+
+        val bookingCreateResource = BookingCreateResource(
+            concertId = concert.id!!,
+            ticketId = ticket.id!!
+        )
+
+        // when & then
+        val booking: Booking = bookingController.create(bookingCreateResource).body!!
+
+        // initCount 의 개수보다 많은 예약을 수행한다.
+        runBlocking {
+            supervisorScope {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    repeat(5) {
+                        val result = async { bookingCreateBy(bookingCreateResource) }
+
+                        try {
+                            result.await()
+                        } catch (exception: Exception) {
+                            logger.info { "=== [여기-result] ===" }
+                        }
+                    }
+                }
+                job.join()
+            }
+        }
+
+        // then
+        val count = bookingRedisRepository.get(booking)
         count shouldBe 5
     }
 

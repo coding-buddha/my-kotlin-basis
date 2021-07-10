@@ -6,9 +6,9 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface ConcertRealClient {
+interface ConcertRealClient : ConcertClient{
     @POST("concerts")
-    fun createConcert(
+    override fun createConcert(
         @Body resource: ConcertResource.CreateRequest
     ): Call<ConcertResource.Reply>
 }

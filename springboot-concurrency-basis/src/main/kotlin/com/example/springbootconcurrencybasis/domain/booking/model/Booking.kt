@@ -23,11 +23,11 @@ class Booking: BaseEntity() {
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Concert::class)
     @JoinColumn(name = "concert_id", nullable = false)
-    private var concert: Concert? = null
+    var concert: Concert? = null
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Ticket::class)
     @JoinColumn(name = "ticket_id", nullable = false)
-    private var ticket: Ticket? = null
+    var ticket: Ticket? = null
 
     @Column(name = "deleted", columnDefinition = "BIT comment '삭제여부'", nullable = false)
     private var deleted: Boolean = false

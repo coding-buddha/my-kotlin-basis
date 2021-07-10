@@ -1,8 +1,6 @@
 package com.example.springbootconcurrencybasis.client.concert.resource
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import kotlinx.serialization.Serializable
 
 class ConcertResource {
 

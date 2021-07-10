@@ -12,19 +12,20 @@ class BookingChecker(
 ) {
 
     companion object : KLogging()
-    
-    fun possibleBookingOrThrow(booking: Booking, bookingCount: Int, ticket: Ticket) {
-        val increaseResultCount = bookingRedisRepository.increaseBooking(booking.id!!.toString(), bookingCount)
-        val result = bookingRedisRepository.get(booking.id!!.toString())
-        logger.info { "incr : $increaseResultCount, bookingCount : $bookingCount, result : $result" }
 
-        if (increaseResultCount > ticket.initCount) {
+    /**
+     * bookingCount 는 lock 이 안걸려서, 동일한 값이 나오더라도
+     * incrValue 는 레디스 싱글스레드로 동작하기에 동시성 체크가 가능하다.
+     */
+    fun possibleBookingOrThrow(booking: Booking, bookingCount: Int, ticket: Ticket) {
+        val incrValue = bookingRedisRepository.increaseBooking(booking, bookingCount)
+        if (incrValue > ticket.initCount) {
             this.decreaseBy(booking)
             throw Exception("티켓 예약이 끝났습니다.")
         }
     }
 
     fun decreaseBy(booking: Booking) {
-        bookingRedisRepository.decreaseBooking(booking.id!!.toString())
+        bookingRedisRepository.decreaseBooking(booking)
     }
 }

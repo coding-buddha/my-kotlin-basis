@@ -1,17 +1,17 @@
-package com.example.springbootconcurrencybasis.client.concert
+package com.example.springbootconcurrencybasis.client.booking
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
-class ConcertClientMaker(
+class BookingClientMaker(
     private val host: String,
     private val useDummy: Boolean,
     private val mapper: ObjectMapper
 ) {
 
-    fun createClient(): ConcertClient {
+    fun createClient(): BookingClient {
         val httpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val builder = chain.request().newBuilder()
@@ -26,11 +26,10 @@ class ConcertClientMaker(
             .callFactory(httpClient)
             .build()
 
-
         if (this.useDummy) {
-            return ConcertLocalClient()
+            return BookingLocalClient()
         }
 
-        return retrofit.create(ConcertRealClient::class.java)
+        return retrofit.create(BookingRealClient::class.java)
     }
 }
