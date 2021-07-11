@@ -6,11 +6,13 @@ import com.example.springbootconcurrencybasis.global.exception.ErrorCode
 import com.example.springbootconcurrencybasis.global.exception.detail.SystemRuntimeException
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.data.redis.connection.RedisConnection
-import org.springframework.data.redis.core.RedisCallback
+import org.springframework.data.redis.connection.RedisStringCommands
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.core.types.Expiration
 import org.springframework.stereotype.Repository
 import java.time.Duration
+import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 @Repository
 class BookingRedisRepository(
@@ -38,17 +40,17 @@ class BookingRedisRepository(
     fun watchBooking(booking: Booking) {
         val key = generateKey(booking)
 
-        logger.info { "[1] key : $key" }
-        redisTxTemplate.opsForValue().setIfAbsent(key, 0.toString(), Duration.ofMinutes(5))
-        val lastCount = redisTxTemplate.opsForValue().get(key)?.toInt() ?: 0
-        logger.info { "[2] lastCount : $lastCount" }
+        logger.info { "key : $key" }
 
         val result = redisTxTemplate.execute { redisConnection ->
             try {
                 redisConnection.watch(key.toByteArray())
-                redisConnection.set(key.toByteArray(), 0.toString().toByteArray())
+
                 redisConnection.multi()
-                redisConnection.incr(key.toByteArray())
+                redisConnection.set(key.toByteArray(), booking.id.toString().toByteArray(),
+                    Expiration.from(Duration.ofMinutes(5)),
+                    RedisStringCommands.SetOption.SET_IF_ABSENT
+                )
                 redisConnection.exec()
                 "Hello"
             } catch (exception: Exception) {
@@ -56,7 +58,7 @@ class BookingRedisRepository(
             }
         }
 
-        logger.info { "[3] result : $result, value : ${redisTxTemplate.opsForValue().get(key)}" }
+        logger.info { "result : $result, value : ${redisTxTemplate.opsForValue().get(key)}" }
     }
 
     fun get(booking: Booking): Int {
