@@ -6,18 +6,14 @@ import com.example.springbootconcurrencybasis.global.exception.ErrorCode
 import com.example.springbootconcurrencybasis.global.exception.detail.SystemRuntimeException
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.data.redis.connection.RedisStringCommands
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.core.types.Expiration
 import org.springframework.stereotype.Repository
 import java.time.Duration
 
 @Repository
 class BookingRedisRepository(
     @Qualifier(value = MyRedisConnectionInfo.BOOKING_TEMPLATE)
-    private val redisTemplate: RedisTemplate<String, String>,
-    @Qualifier(value = MyRedisConnectionInfo.BOOKING_TX_TEMPLATE)
-    private val redisTxTemplate: RedisTemplate<String, String>
+    private val redisTemplate: RedisTemplate<String, String>
 ) {
 
     companion object : KLogging()
@@ -38,15 +34,21 @@ class BookingRedisRepository(
             .decrement(key)
     }
 
+    fun get(booking: Booking): Int {
+        val key = generateKey(booking)
+        return redisTemplate.opsForValue()
+            .get(key)?.toInt() ?: 0
+    }
+
     /**
      * watch 를 통한 동시성 처리 : watch 는 레디스 트랜잭션에서 동시성처리 (cas : check & set) 을 위해 사용한다.
      * https://redis.io/commands/setex
      * https://redis.io/topics/transactions
      */
-    fun watchBooking(booking: Booking): Boolean? {
+    fun watchBookingForTest(booking: Booking): Boolean {
         val key = generateKey(booking)
 
-        val result = redisTxTemplate.execute { redisConnection ->
+        val result = redisTemplate.execute { redisConnection ->
             try {
                 redisConnection.watch(key.toByteArray())
                 val value = redisConnection.get(key.toByteArray())
@@ -62,13 +64,7 @@ class BookingRedisRepository(
         }
 
         logger.info { "redis exec result : $result" }
-        return result?.first() as Boolean
-    }
-
-    fun get(booking: Booking): Int {
-        val key = generateKey(booking)
-        return redisTemplate.opsForValue()
-            .get(key)?.toInt() ?: 0
+        return result?.first().toString().toBoolean()
     }
 
     private fun generateKey(booking: Booking): String {

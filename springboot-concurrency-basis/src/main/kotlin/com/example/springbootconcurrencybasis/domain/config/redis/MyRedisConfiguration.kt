@@ -30,16 +30,4 @@ class MyRedisConfiguration(
             this.valueSerializer = StringRedisSerializer()
         }
     }
-
-    @Bean(name = [MyRedisConnectionInfo.BOOKING_TX_TEMPLATE])
-    fun bookingTransactionTemplate(): RedisTemplate<String, String> {
-        return RedisTemplate<String, String>().apply {
-            setConnectionFactory(redisConnectionFactory().apply {
-                database = MyRedisConnectionInfo.BOOKING_TX_DB
-                afterPropertiesSet()
-            })
-            this.keySerializer = StringRedisSerializer()
-            this.valueSerializer = StringRedisSerializer()
-        }
-    }
 }

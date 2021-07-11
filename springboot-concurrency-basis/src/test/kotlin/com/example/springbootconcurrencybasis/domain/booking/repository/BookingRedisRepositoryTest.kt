@@ -2,6 +2,7 @@ package com.example.springbootconcurrencybasis.domain.booking.repository
 
 import com.example.springbootconcurrencybasis.Helper
 import com.example.springbootconcurrencybasis.IntegrationSupport
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -29,14 +30,19 @@ internal class BookingRedisRepositoryTest : IntegrationSupport() {
         val ticket = helper.createTicket(concertId = concert.id!!)
         val booking = helper.createBooking(concertId = concert.id!!, ticketId = ticket.id!!)
 
+        // when
         runBlocking {
             val job = CoroutineScope(Dispatchers.IO).launch {
-                async { bookingRedisRepository.watchBooking(booking) }
-                async { bookingRedisRepository.watchBooking(booking) }
-                async { bookingRedisRepository.watchBooking(booking) }
-                async { bookingRedisRepository.watchBooking(booking) }
+                async { bookingRedisRepository.watchBookingForTest(booking) }
+                async { bookingRedisRepository.watchBookingForTest(booking) }
+                async { bookingRedisRepository.watchBookingForTest(booking) }
+                async { bookingRedisRepository.watchBookingForTest(booking) }
             }
             job.join()
         }
+
+        // then
+        val result = bookingRedisRepository.get(booking)
+        result shouldBe 1
     }
 }
