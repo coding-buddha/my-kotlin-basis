@@ -13,7 +13,9 @@ import java.time.Duration
 @Repository
 class BookingRedisRepository(
     @Qualifier(value = MyRedisConnectionInfo.BOOKING_TEMPLATE)
-    private val redisTemplate: RedisTemplate<String, String>
+    private val redisTemplate: RedisTemplate<String, String>,
+    @Qualifier(value = MyRedisConnectionInfo.BOOKING_TX_TEMPLATE)
+    private val redisTxTemplate: RedisTemplate<String, String>,
 ) {
 
     companion object : KLogging()
@@ -48,7 +50,7 @@ class BookingRedisRepository(
     fun watchBookingForTest(booking: Booking): Boolean {
         val key = generateKey(booking)
 
-        val result = redisTemplate.execute { redisConnection ->
+        val result = redisTxTemplate.execute { redisConnection ->
             try {
                 redisConnection.watch(key.toByteArray())
                 val value = redisConnection.get(key.toByteArray())
@@ -59,12 +61,13 @@ class BookingRedisRepository(
                 redisConnection.exec()
             } catch (exception: Exception) {
                 logger.error { "redis watch exception : ${exception.message}" }
-                listOf(false)
+                redisConnection.discard()
+                redisConnection.exec()
             }
         }
 
         logger.info { "redis exec result : $result" }
-        return result?.first().toString().toBoolean()
+        return result?.first()?.toString()?.toBoolean() ?: false
     }
 
     private fun generateKey(booking: Booking): String {

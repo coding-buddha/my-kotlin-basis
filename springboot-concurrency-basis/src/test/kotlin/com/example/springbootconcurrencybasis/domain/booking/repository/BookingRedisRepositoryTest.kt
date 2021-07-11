@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import mu.KLogging
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +22,8 @@ internal class BookingRedisRepositoryTest : IntegrationSupport() {
     @Autowired
     private lateinit var bookingRedisRepository: BookingRedisRepository
 
+    companion object : KLogging()
+
     @Test
     @DisplayName("레디스 키를 감시한다.")
     fun watchBookingTest() {
@@ -33,10 +36,14 @@ internal class BookingRedisRepositoryTest : IntegrationSupport() {
         // when
         runBlocking {
             val job = CoroutineScope(Dispatchers.IO).launch {
-                async { bookingRedisRepository.watchBookingForTest(booking) }
-                async { bookingRedisRepository.watchBookingForTest(booking) }
-                async { bookingRedisRepository.watchBookingForTest(booking) }
-                async { bookingRedisRepository.watchBookingForTest(booking) }
+                val result01 = async { bookingRedisRepository.watchBookingForTest(booking) }
+                val result02 = async { bookingRedisRepository.watchBookingForTest(booking) }
+                val result03 = async { bookingRedisRepository.watchBookingForTest(booking) }
+                val result04 = async { bookingRedisRepository.watchBookingForTest(booking) }
+                println("[1] ${result01.await()}")
+                println("[2] ${result02.await()}")
+                println("[3] ${result03.await()}")
+                println("[4] ${result04.await()}")
             }
             job.join()
         }
