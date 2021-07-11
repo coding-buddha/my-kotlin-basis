@@ -1,4 +1,4 @@
-package com.example.springbootconcurrencybasis.util
+package com.example.springbootconcurrencybasis
 
 import com.example.springbootconcurrencybasis.IntegrationSupport
 import com.example.springbootconcurrencybasis.domain.booking.api.BookingController

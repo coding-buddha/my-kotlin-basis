@@ -1,11 +1,12 @@
 package com.example.springbootconcurrencybasis.domain.booking.repository
 
-import com.example.springbootconcurrencybasis.util.Helper
+import com.example.springbootconcurrencybasis.Helper
 import com.example.springbootconcurrencybasis.IntegrationSupport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,9 +29,14 @@ internal class BookingRedisRepositoryTest : IntegrationSupport() {
         val ticket = helper.createTicket(concertId = concert.id!!)
         val booking = helper.createBooking(concertId = concert.id!!, ticketId = ticket.id!!)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            async { bookingRedisRepository.watchBooking(booking) }
-            async { bookingRedisRepository.watchBooking(booking) }
+        runBlocking {
+            val job = CoroutineScope(Dispatchers.IO).launch {
+                async { bookingRedisRepository.watchBooking(booking) }
+                async { bookingRedisRepository.watchBooking(booking) }
+                async { bookingRedisRepository.watchBooking(booking) }
+                async { bookingRedisRepository.watchBooking(booking) }
+            }
+            job.join()
         }
     }
 }
