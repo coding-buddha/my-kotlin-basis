@@ -1,4 +1,4 @@
-package com.example.springbootconcurrencybasis.domain.booking.service
+package com.example.springbootconcurrencybasis.domain.booking.service.valid
 
 import com.example.springbootconcurrencybasis.domain.booking.model.Booking
 import com.example.springbootconcurrencybasis.domain.booking.repository.BookingRedisRepository
@@ -8,6 +8,9 @@ import com.example.springbootconcurrencybasis.global.exception.detail.SystemPoli
 import mu.KLogging
 import org.springframework.stereotype.Service
 
+/**
+ * redisTemplate 을 이용, incr 과 desc 를 이용하여 처리한다.
+ */
 @Service
 class BookingChecker(
     private val bookingRedisRepository: BookingRedisRepository

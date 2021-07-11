@@ -3,6 +3,7 @@ package com.example.springbootconcurrencybasis.global
 import com.example.springbootconcurrencybasis.global.exception.ErrorMessage
 import com.example.springbootconcurrencybasis.global.exception.detail.EntityNotFoundException
 import com.example.springbootconcurrencybasis.global.exception.detail.SystemPolicyException
+import com.example.springbootconcurrencybasis.global.exception.detail.SystemRuntimeException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -25,7 +26,17 @@ class GlobalControllerAdvice {
 
     @ExceptionHandler(value = [SystemPolicyException::class])
     fun handleSystemPolicyException(
-        e: EntityNotFoundException, request: WebRequest
+        e: SystemPolicyException, request: WebRequest
+    ): ResponseEntity<ErrorMessage> {
+        val errorMessage = ErrorMessage(e.code.name, e.message, request.toRequestURL())
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(errorMessage)
+    }
+
+    @ExceptionHandler(value = [SystemRuntimeException::class])
+    fun handleSystemRuntimeException(
+        e: SystemRuntimeException, request: WebRequest
     ): ResponseEntity<ErrorMessage> {
         val errorMessage = ErrorMessage(e.code.name, e.message, request.toRequestURL())
         return ResponseEntity
