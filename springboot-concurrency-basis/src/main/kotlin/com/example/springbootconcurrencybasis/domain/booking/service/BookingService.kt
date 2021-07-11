@@ -5,9 +5,11 @@ import com.example.springbootconcurrencybasis.domain.booking.model.Booking
 import com.example.springbootconcurrencybasis.domain.booking.repository.BookingCustomRepository
 import com.example.springbootconcurrencybasis.domain.booking.repository.BookingRepository
 import com.example.springbootconcurrencybasis.domain.conert.service.ConcertFindService
+import com.example.springbootconcurrencybasis.global.exception.ErrorCode
+import com.example.springbootconcurrencybasis.global.exception.detail.EntityNotFoundException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import javax.persistence.EntityNotFoundException
 
 @Service
 @Transactional
@@ -38,14 +40,10 @@ class BookingService(
     }
 
     fun cancel(id: Long) {
-        val bookings = bookingCustomRepository.findOneById(id)
-        if (bookings.isEmpty()) {
-            throw EntityNotFoundException("Booking[$id] 를 찾을 수 없습니다.")
-        }
-
-        val myBooking = bookings.first()
-        myBooking.delete()
-        bookingRepository.save(myBooking)
-        bookingChecker.decreaseBy(myBooking)
+        val booking = bookingRepository.findByIdOrNull(id)
+            ?: throw EntityNotFoundException(ErrorCode.E100, "Booking[$id] 를 찾을 수 없습니다.")
+        booking.delete()
+        bookingRepository.save(booking)
+        bookingChecker.decreaseBy(booking)
     }
 }

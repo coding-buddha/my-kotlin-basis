@@ -12,9 +12,4 @@ import javax.persistence.EntityNotFoundException
 class TicketFindService(
     private val ticketRepository: TicketRepository
 ) {
-
-    fun findOneByIdOrThrow(id: Long) : Ticket {
-        return ticketRepository.findByIdOrNull(id)
-            ?: throw EntityNotFoundException("Ticket[$id] 를 찾을 수 없습니다.")
-    }
 }

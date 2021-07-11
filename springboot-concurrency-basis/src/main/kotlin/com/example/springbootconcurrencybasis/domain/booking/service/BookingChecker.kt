@@ -3,6 +3,8 @@ package com.example.springbootconcurrencybasis.domain.booking.service
 import com.example.springbootconcurrencybasis.domain.booking.model.Booking
 import com.example.springbootconcurrencybasis.domain.booking.repository.BookingRedisRepository
 import com.example.springbootconcurrencybasis.domain.ticket.model.Ticket
+import com.example.springbootconcurrencybasis.global.exception.ErrorCode
+import com.example.springbootconcurrencybasis.global.exception.detail.SystemPolicyException
 import mu.KLogging
 import org.springframework.stereotype.Service
 
@@ -21,7 +23,7 @@ class BookingChecker(
         val incrValue = bookingRedisRepository.increaseBooking(booking, bookingCount)
         if (incrValue > ticket.initCount) {
             this.decreaseBy(booking)
-            throw Exception("티켓 예약이 끝났습니다.")
+            throw SystemPolicyException(ErrorCode.SP100, ErrorCode.SP100.message)
         }
     }
 

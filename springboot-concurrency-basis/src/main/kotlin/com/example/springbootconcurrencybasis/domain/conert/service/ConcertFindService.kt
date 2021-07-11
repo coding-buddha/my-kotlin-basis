@@ -3,10 +3,11 @@ package com.example.springbootconcurrencybasis.domain.conert.service
 import com.example.springbootconcurrencybasis.domain.conert.model.Concert
 import com.example.springbootconcurrencybasis.domain.conert.repository.ConcertCustomRepository
 import com.example.springbootconcurrencybasis.domain.conert.repository.ConcertRepository
+import com.example.springbootconcurrencybasis.global.exception.ErrorCode
+import com.example.springbootconcurrencybasis.global.exception.detail.EntityNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import javax.persistence.EntityNotFoundException
 
 @Service
 @Transactional(readOnly = true)
@@ -17,6 +18,6 @@ class ConcertFindService(
 
     fun findOneByIdOrThrow(id: Long) : Concert {
         return concertRepository.findByIdOrNull(id)
-            ?: throw EntityNotFoundException("Concert[$id] 를 찾을 수 없습니다.")
+            ?: throw EntityNotFoundException(ErrorCode.E100, "Concert[$id] 를 찾을 수 없습니다.")
     }
 }

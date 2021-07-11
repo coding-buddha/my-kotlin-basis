@@ -173,10 +173,18 @@ internal class BookingControllerTest : IntegrationSupport() {
                             result.await()
                         } catch (exception: Exception) {
                             logger.info { "=== [여기-result] ===" }
+                            logger.info { "${exception.message}" }
+                            exception.message shouldBe "티켓 예약을 더 이상 할 수 없습니다."
                         }
                     }
                 }
-                job.join()
+                try {
+                    job.join()
+                } catch (exception: Exception) {
+                    logger.info { "[2]=== [여기-result] ===" }
+                    logger.info { "[2] ${exception.message}" }
+                    exception.message shouldBe "티켓 예약을 더 이상 할 수 없습니다."
+                }
             }
         }
 

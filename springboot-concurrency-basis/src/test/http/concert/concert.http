@@ -18,7 +18,7 @@ client.global.set("concertId", response.body.id);
 %}
 
 ### Concert 단일 조회
-GET {{host}}/concerts/{{concertId}}
+GET {{host}}/concerts/55
 Content-Type: application/json
 
 ### Concert 전체 조회

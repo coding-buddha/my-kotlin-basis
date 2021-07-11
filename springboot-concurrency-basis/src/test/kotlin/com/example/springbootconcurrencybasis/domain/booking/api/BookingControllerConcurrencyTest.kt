@@ -59,7 +59,7 @@ class BookingControllerConcurrencyTest : IntegrationSupport() {
 
     @Test
     @DisplayName("콘서트를 하나를 생성한다.")
-    @Disabled
+    @Disabled("로컬에서 앱을 띄어놓고 해야한다.")
     fun createConcertTest() {
 
         // given
@@ -84,7 +84,7 @@ class BookingControllerConcurrencyTest : IntegrationSupport() {
 
     @Test
     @DisplayName("에약을 동시에 수행한다.")
-    @Disabled
+    @Disabled("로컬에서 앱을 띄어놓고 해야한다.")
     fun createBookingConcurrencyTest() {
 
         // given : concert
