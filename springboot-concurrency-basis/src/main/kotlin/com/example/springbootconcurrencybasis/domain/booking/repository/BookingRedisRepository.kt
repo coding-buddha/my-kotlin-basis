@@ -11,8 +11,6 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.types.Expiration
 import org.springframework.stereotype.Repository
 import java.time.Duration
-import java.util.concurrent.TimeUnit
-import kotlin.random.Random
 
 @Repository
 class BookingRedisRepository(
@@ -24,6 +22,9 @@ class BookingRedisRepository(
 
     companion object : KLogging()
 
+    /**
+     * incr 을 통한 동시성 처리
+     */
     fun increaseBooking(booking: Booking, bookingCount: Int): Long {
         val key = generateKey(booking)
         redisTemplate.opsForValue().setIfAbsent(key, bookingCount.toString(), Duration.ofMinutes(5))
@@ -37,28 +38,31 @@ class BookingRedisRepository(
             .decrement(key)
     }
 
-    fun watchBooking(booking: Booking) {
+    /**
+     * watch 를 통한 동시성 처리 : watch 는 레디스 트랜잭션에서 동시성처리 (cas : check & set) 을 위해 사용한다.
+     * https://redis.io/commands/setex
+     * https://redis.io/topics/transactions
+     */
+    fun watchBooking(booking: Booking): Boolean? {
         val key = generateKey(booking)
-
-        logger.info { "key : $key" }
 
         val result = redisTxTemplate.execute { redisConnection ->
             try {
                 redisConnection.watch(key.toByteArray())
+                val value = redisConnection.get(key.toByteArray())
+                val assign = value?.toString()?.toInt() ?: 0
 
                 redisConnection.multi()
-                redisConnection.set(key.toByteArray(), booking.id.toString().toByteArray(),
-                    Expiration.from(Duration.ofMinutes(5)),
-                    RedisStringCommands.SetOption.SET_IF_ABSENT
-                )
+                redisConnection.setEx(key.toByteArray(), 60 * 5, (assign + 1).toString().toByteArray())
                 redisConnection.exec()
-                "Hello"
             } catch (exception: Exception) {
-                logger.error { "에러가 발생 : ${exception.message}" }
+                logger.error { "redis watch exception : ${exception.message}" }
+                listOf(false)
             }
         }
 
-        logger.info { "result : $result, value : ${redisTxTemplate.opsForValue().get(key)}" }
+        logger.info { "redis exec result : $result" }
+        return result?.first() as Boolean
     }
 
     fun get(booking: Booking): Int {
